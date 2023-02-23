@@ -1,0 +1,40 @@
+{
+  "name": "vite-plugin-vue-atomcss",
+  "version": "0.0.1",
+  "description": "vite-plugin-vue-atomcss",
+  "main": "plugin/atomcss.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wujr5/vite-plugin-vue-atomcss.git"
+  },
+  "keywords": [
+    "vite",
+    "plugin",
+    "vue",
+    "atomcss"
+  ],
+  "author": "吴家荣",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wujr5/vite-plugin-vue-atomcss/issues"
+  },
+  "homepage": "https://github.com/wujr5/vite-plugin-vue-atomcss#readme",
+  "dependencies": {
+    "pug": "^3.0.2",
+    "vue": "^3.2.45",
+    "vue-router": "^4.1.6"
+  },
+  "devDependencies": {
+    "@prettier/plugin-pug": "^2.4.1",
+    "@vitejs/plugin-vue": "^4.0.0",
+    "@volar/vue-language-plugin-pug": "^1.0.24",
+    "prettier": "^2.7.1",
+    "vite": "^4.0.0",
+    "vite-plugin-inspect": "^0.7.15"
+  }
+}
