@@ -11,8 +11,9 @@
  * border-radius：br
  *
  */
-const fs = require('fs');
-const path = require('path');
+import fs from 'node:fs';
+import path from 'node:path';
+import oAtomConfig from './atomcss.config.js';
 
 let oClassNameMap = {
   // margin
@@ -80,14 +81,14 @@ let oClassNameMap = {
   '.z': 'z-index: $',
 };
 
-let oAtomConfig = {};
+// let oAtomConfig = {};
 
-// 读取配置文件，如果不存在，就是用默认的配置文件
-try {
-  oAtomConfig = require(path.resolve() + '/../../atomcss.config.js');
-} catch (e) {
-  oAtomConfig = require(path.resolve() + '/plugin/atomcss.config.js');
-}
+// // 读取配置文件，如果不存在，就是用默认的配置文件
+// try {
+//   oAtomConfig = require(path.resolve() + '/../../atomcss.config.js');
+// } catch (e) {
+//   oAtomConfig = require(path.resolve() + '/plugin/atomcss.config.js');
+// }
 
 // 如果模式为 rem，则将 px 替换为 rem
 if (oAtomConfig.mode === 'rem') {
@@ -118,7 +119,7 @@ for (let key in oClassNameMap) {
 // 去掉最后一个 | 符号
 sAtomRegExp = sAtomRegExp.substr(0, sAtomRegExp.length - 1);
 
-module.exports = function (sSource) {
+export default function (sSource) {
   // 从 vue 文件中提取 pug 代码
   let sPugString, sHtmlString, sClassString;
   try {
@@ -215,4 +216,4 @@ module.exports = function (sSource) {
     css: aStyleStr,
   };
   // return aStyleStr;
-};
+}

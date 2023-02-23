@@ -1,10 +1,10 @@
-import atomcssLoader from "./atomcss-loader.js";
-import fs from "node:fs";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import atomcssLoader from './atomcss-loader.js';
 
 function dirname() {
-  return path.dirname(fileURLToPath(import.meta.url)) + "/";
+  return path.dirname(fileURLToPath(import.meta.url)) + '/';
 }
 
 const cssFileStyle = {};
@@ -23,9 +23,9 @@ function generateAtomcssFile() {
 
   // 将生成的原子类写入文件
   fs.writeFileSync(
-    dirname() + "atomcss-generated.css",
-    generatedCss.join(""),
-    "utf8"
+    dirname() + 'atomcss-generated.css',
+    generatedCss.join(''),
+    'utf8'
   );
 }
 
@@ -33,9 +33,9 @@ const vuefileRegex = /\.(vue)$/;
 
 function servePlugin() {
   return {
-    name: "vite-plugin-vue-atomcss",
-    enforce: "pre",
-    apply: "serve",
+    name: 'vite-plugin-vue-atomcss',
+    enforce: 'pre',
+    apply: 'serve',
     transform(code, id) {
       if (vuefileRegex.test(id)) {
         let result = atomcssLoader(code);
@@ -45,9 +45,9 @@ function servePlugin() {
     transformIndexHtml(html) {
       return [
         {
-          tag: "script",
-          attrs: { type: "module", src: dirname() + "client.js" },
-          injectTo: "body",
+          tag: 'script',
+          attrs: { type: 'module', src: dirname() + 'client.js' },
+          injectTo: 'body',
         },
       ];
     },
@@ -57,12 +57,12 @@ function servePlugin() {
         .map((i) => i.id);
 
       if (vueFiles.length > 0) {
-        let code = fs.readFileSync(vueFiles[0], "utf8");
+        let code = fs.readFileSync(vueFiles[0], 'utf8');
         let result = atomcssLoader(code);
         server.ws.send({
-          type: "custom",
-          event: "atomcss:update-style",
-          data: { key: vueFiles[0], value: result.css.join("") },
+          type: 'custom',
+          event: 'atomcss:update-style',
+          data: { key: vueFiles[0], value: result.css.join('') },
         });
       }
     },
@@ -71,9 +71,9 @@ function servePlugin() {
 
 function buildPlugin() {
   return {
-    name: "vite-plugin-vue-atomcss",
-    enforce: "pre",
-    apply: "build",
+    name: 'vite-plugin-vue-atomcss',
+    enforce: 'pre',
+    apply: 'build',
     transform(code, id) {
       if (vuefileRegex.test(id)) {
         let result = atomcssLoader(code);
