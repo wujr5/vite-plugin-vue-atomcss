@@ -1,13 +1,33 @@
 {
   "name": "vite-plugin-vue-atomcss",
-  "version": "0.0.2",
+  "version": "0.0.8",
   "description": "vite-plugin-vue-atomcss",
-  "main": "plugin/atomcss.js",
+  "main": "atomcss.js",
+  "module": "atomcss.mjs",
   "type": "module",
+  "exports": {
+    ".": {
+      "require": "./atomcss.cjs",
+      "import": "./atomcss.js"
+    },
+    "./atomcss.css": {
+      "require": "./atomcss.css",
+      "import": "./atomcss.css"
+    }
+  },
+  "files": [
+    "atomcss.cjs",
+    "atomcss.js",
+    "atomcss.config.js",
+    "atomcss-common.css",
+    "atomcss-generated.css",
+    "atomcss.css",
+    "client.js"
+  ],
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "dev": "cd package && npm run dev",
+    "copy": "cp package/plugin/*.css package/plugin/atomcss.config.js package/plugin/client.js .",
+    "build": "npm run copy && tsup package/plugin/atomcss.js --minify --format esm,cjs -d ."
   },
   "repository": {
     "type": "git",
@@ -25,17 +45,7 @@
     "url": "https://github.com/wujr5/vite-plugin-vue-atomcss/issues"
   },
   "homepage": "https://github.com/wujr5/vite-plugin-vue-atomcss#readme",
-  "dependencies": {
-    "pug": "^3.0.2",
-    "vue": "^3.2.45",
-    "vue-router": "^4.1.6"
-  },
   "devDependencies": {
-    "@prettier/plugin-pug": "^2.4.1",
-    "@vitejs/plugin-vue": "^4.0.0",
-    "@volar/vue-language-plugin-pug": "^1.0.24",
-    "prettier": "^2.7.1",
-    "vite": "^4.0.0",
-    "vite-plugin-inspect": "^0.7.15"
+    "tsup": "^6.6.3"
   }
 }
