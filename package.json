@@ -3,7 +3,6 @@
   "version": "0.0.8",
   "description": "vite-plugin-vue-atomcss",
   "main": "atomcss.js",
-  "module": "atomcss.mjs",
   "type": "module",
   "exports": {
     ".": {
