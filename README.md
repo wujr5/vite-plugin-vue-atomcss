@@ -33,16 +33,17 @@ import 'vite-plugin-vue-atomcss/plugin/atomcss.css';
 ```
 
 ```js
-// vite.config.ts
+// vite.config.js
 import vue from '@vitejs/plugin-vue';
 import atomcss from 'vite-plugin-vue-atomcss';
+import atomcssConfig from './atomcss.config.js';
 
 export default defineConfig({
-  plugins: [vue(), atomcss()],
+  plugins: [vue(), atomcss(atomcssConfig)],
 });
 ```
 
-**项目根目录下的：atomcss.config.js**
+**atomcss.config.js**
 
 ```js
 // atomcss.config.js
@@ -69,12 +70,6 @@ export default {
 - 可选项：`px` 和 `rem`
 - `px`：单位是 px，一般用于 PC Web；`rem`：单位是 rem，一般用于 Mobile Web（H5）
 - 默认为 `px`
-
-**引用通用原子类**
-
-```js
-import 'vue-atomcss-loader/atomcss-common.css';
-```
 
 ## 定制原子类
 

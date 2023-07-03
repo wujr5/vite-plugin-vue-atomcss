@@ -80,7 +80,6 @@ let oClassNameMap = {
 };
 
 export default function (sSource, oAtomConfig = {}) {
-  console.log(oAtomConfig);
   // 如果模式为 rem，则将 px 替换为 rem
   if (oAtomConfig.mode === 'rem') {
     for (let key in oClassNameMap) {

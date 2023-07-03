@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-vue-atomcss",
-  "version": "0.0.10",
+  "version": "0.0.12",
   "description": "vite-plugin-vue-atomcss",
   "main": "atomcss.js",
   "type": "module",
@@ -25,7 +25,7 @@
   ],
   "scripts": {
     "dev": "cd package && npm run dev",
-    "copy": "cp package/plugin/*.css package/plugin/atomcss.config.js package/plugin/client.js . && echo '' > atomcss-generated.css",
+    "copy": "cp package/plugin/*.css package/plugin/atomcss.config.js package/plugin/client.js . && echo '/* 自动生成的原子类，打包时存放在此 */' > atomcss-generated.css",
     "build": "npm run copy && tsup package/plugin/atomcss.js --minify --format esm,cjs -d ."
   },
   "repository": {
