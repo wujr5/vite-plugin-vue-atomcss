@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-vue-atomcss",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "vite-plugin-vue-atomcss",
   "main": "atomcss.js",
   "type": "module",
@@ -45,6 +45,6 @@
   },
   "homepage": "https://github.com/wujr5/vite-plugin-vue-atomcss#readme",
   "devDependencies": {
-    "tsup": "^6.6.3"
+    "tsup": "6.6.3"
   }
 }

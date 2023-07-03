@@ -13,7 +13,6 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
-import oAtomConfig from './atomcss.config.js';
 
 let oClassNameMap = {
   // margin
@@ -81,14 +80,15 @@ let oClassNameMap = {
   '.z': 'z-index: $',
 };
 
-// let oAtomConfig = {};
+let oAtomConfig = {};
 
-// // 读取配置文件，如果不存在，就是用默认的配置文件
-// try {
-//   oAtomConfig = require(path.resolve() + '/../../atomcss.config.js');
-// } catch (e) {
-//   oAtomConfig = require(path.resolve() + '/plugin/atomcss.config.js');
-// }
+// 读取配置文件，如果不存在，就是用默认的配置文件
+
+try {
+  oAtomConfig = () => import(path.resolve() + '/../../atomcss.config.js');
+} catch (e) {
+  oAtomConfig = () => import(path.resolve() + '/plugin/atomcss.config.js');
+}
 
 // 如果模式为 rem，则将 px 替换为 rem
 if (oAtomConfig.mode === 'rem') {

@@ -1,7 +1,7 @@
 <template lang="pug">
 main
   div(style="text-align: center")
-    h1 文章列表
+    h1 列表
     router-link.h-50.lh-50.bd-1.t-l.px-20.mb-10.br-4.c-1e1e1e.dspl-bl.fs-16(
       v-for="(item, index) in list",
       style="text-decoration: none",
@@ -17,11 +17,18 @@ let list = $ref([]);
 
 onMounted(() => {
   document.title = '列表';
-
   list = [
     {
       id: 1,
-      title: '哈哈哈',
+      title: '哈哈哈1',
+    },
+    {
+      id: 2,
+      title: '哈哈哈2',
+    },
+    {
+      id: 3,
+      title: '哈哈哈3',
     },
   ];
 });
