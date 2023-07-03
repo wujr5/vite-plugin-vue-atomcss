@@ -9,7 +9,7 @@ export default {
     '.bgred': 'background: red',
 
     // 色值原子类配置示例
-    '.backcolor': 'background-color: #',
+    '.bgc': 'background-color: #',
 
     // ... 你的配置
   },

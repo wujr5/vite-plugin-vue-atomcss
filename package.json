@@ -25,7 +25,7 @@
   ],
   "scripts": {
     "dev": "cd package && npm run dev",
-    "copy": "cp package/plugin/*.css package/plugin/atomcss.config.js package/plugin/client.js .",
+    "copy": "cp package/plugin/*.css package/plugin/atomcss.config.js package/plugin/client.js . && echo '' > atomcss-generated.css",
     "build": "npm run copy && tsup package/plugin/atomcss.js --minify --format esm,cjs -d ."
   },
   "repository": {
