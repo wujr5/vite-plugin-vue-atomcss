@@ -177,7 +177,8 @@ export default function (sSource, oAtomConfig = {}) {
     let bColorFlag =
       oClassNameMap[item.split('-')[0]] &&
       oClassNameMap[item.split('-')[0]].indexOf('$') == -1 &&
-      oClassNameMap[item.split('-')[0]].indexOf('#') != -1;
+      oClassNameMap[item.split('-')[0]].indexOf('#') != -1 &&
+      /^[0-9a-fA-F]+$/.test(item.split('-')[1]); // 十六进制
 
     // 色值类
     if (bColorFlag) {

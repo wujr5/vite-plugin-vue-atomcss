@@ -6,7 +6,7 @@ main
       style="text-decoration: none",
       :to="`/about/1`"
     )
-      .inbl.vtal-top.h-50.w-400 测试测试1111
+      .inbl.vtal-top.h-50.w-400.c-theme 测试测试1111
 </template>
 
 <script setup>

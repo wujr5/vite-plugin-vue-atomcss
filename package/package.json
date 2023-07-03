@@ -33,7 +33,6 @@
     "@prettier/plugin-pug": "^2.4.1",
     "@vitejs/plugin-vue": "^4.0.0",
     "@volar/vue-language-plugin-pug": "^1.0.24",
-    "@vue-macros/reactivity-transform": "^0.3.10",
     "prettier": "^2.7.1",
     "vite": "^4.0.0",
     "vite-plugin-inspect": "^0.7.15"
