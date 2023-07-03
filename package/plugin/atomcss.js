@@ -31,14 +31,14 @@ function generateAtomcssFile() {
 
 const vuefileRegex = /\.(vue)$/;
 
-function servePlugin() {
+function servePlugin(config) {
   return {
     name: 'vite-plugin-vue-atomcss',
     enforce: 'pre',
     apply: 'serve',
     transform(code, id) {
       if (vuefileRegex.test(id)) {
-        let result = atomcssLoader(code);
+        let result = atomcssLoader(code, config);
         return { code: result.code };
       }
     },
@@ -69,14 +69,14 @@ function servePlugin() {
   };
 }
 
-function buildPlugin() {
+function buildPlugin(config) {
   return {
     name: 'vite-plugin-vue-atomcss',
     enforce: 'pre',
     apply: 'build',
     transform(code, id) {
       if (vuefileRegex.test(id)) {
-        let result = atomcssLoader(code);
+        let result = atomcssLoader(code, config);
         cssFileStyle[id] = result.css;
         generateAtomcssFile();
       }
@@ -84,6 +84,6 @@ function buildPlugin() {
   };
 }
 
-export default function atomcss() {
-  return [servePlugin(), buildPlugin()];
+export default function atomcss(config) {
+  return [servePlugin(config), buildPlugin(config)];
 }

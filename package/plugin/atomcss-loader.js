@@ -12,7 +12,6 @@
  *
  */
 import fs from 'node:fs';
-import path from 'node:path';
 
 let oClassNameMap = {
   // margin
@@ -80,46 +79,37 @@ let oClassNameMap = {
   '.z': 'z-index: $',
 };
 
-let oAtomConfig = {};
+export default function (sSource, oAtomConfig = {}) {
+  console.log(oAtomConfig);
+  // 如果模式为 rem，则将 px 替换为 rem
+  if (oAtomConfig.mode === 'rem') {
+    for (let key in oClassNameMap) {
+      oClassNameMap[key] = oClassNameMap[key].replace(/\$px/gi, '$rem');
+    }
+  }
 
-// 读取配置文件，如果不存在，就是用默认的配置文件
+  oClassNameMap = Object.assign(oClassNameMap, oAtomConfig.config || {});
 
-try {
-  oAtomConfig = () => import(path.resolve() + '/../../atomcss.config.js');
-} catch (e) {
-  oAtomConfig = () => import(path.resolve() + '/plugin/atomcss.config.js');
-}
-
-// 如果模式为 rem，则将 px 替换为 rem
-if (oAtomConfig.mode === 'rem') {
+  // 生成正则表达式
+  let sAtomRegExp = '';
   for (let key in oClassNameMap) {
-    oClassNameMap[key] = oClassNameMap[key].replace(/\$px/gi, '$rem');
+    let value = oClassNameMap[key];
+
+    // 数值原子类的正则
+    if (value.indexOf('$') != -1) {
+      sAtomRegExp += `\\${key}-[0-9]+|`;
+    }
+    // 色值原子类正则
+    else if (value.indexOf('#') != -1) {
+      sAtomRegExp += `\\${key}-[0-9a-fA-F]+|`;
+      // 通用原子类的正则
+    } else {
+      sAtomRegExp += `\\${key}|`;
+    }
   }
-}
+  // 去掉最后一个 | 符号
+  sAtomRegExp = sAtomRegExp.substr(0, sAtomRegExp.length - 1);
 
-oClassNameMap = Object.assign(oClassNameMap, oAtomConfig.config);
-
-// 生成正则表达式
-let sAtomRegExp = '';
-for (let key in oClassNameMap) {
-  let value = oClassNameMap[key];
-
-  // 数值原子类的正则
-  if (value.indexOf('$') != -1) {
-    sAtomRegExp += `\\${key}-[0-9]+|`;
-  }
-  // 色值原子类正则
-  else if (value.indexOf('#') != -1) {
-    sAtomRegExp += `\\${key}-[0-9a-fA-F]+|`;
-    // 通用原子类的正则
-  } else {
-    sAtomRegExp += `\\${key}|`;
-  }
-}
-// 去掉最后一个 | 符号
-sAtomRegExp = sAtomRegExp.substr(0, sAtomRegExp.length - 1);
-
-export default function (sSource) {
   // 从 vue 文件中提取 pug 代码
   let sPugString, sHtmlString, sClassString;
   try {

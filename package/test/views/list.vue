@@ -1,35 +1,18 @@
 <template lang="pug">
 main
   div(style="text-align: center")
-    h1 列表
+    h1.bgred 列表
     router-link.h-50.lh-50.bd-1.t-l.px-20.mb-10.br-4.c-1e1e1e.dspl-bl.fs-16(
-      v-for="(item, index) in list",
       style="text-decoration: none",
-      :to="`/about/${item.id}`"
+      :to="`/about/1`"
     )
-      .inbl.vtal-top.h-50.w-400 {{ index }} : {{ item.title }}
+      .inbl.vtal-top.h-50.w-400 测试测试1111
 </template>
 
 <script setup>
 import { onMounted } from 'vue';
 
-let list = $ref([]);
-
 onMounted(() => {
   document.title = '列表';
-  list = [
-    {
-      id: 1,
-      title: '哈哈哈1',
-    },
-    {
-      id: 2,
-      title: '哈哈哈2',
-    },
-    {
-      id: 3,
-      title: '哈哈哈3',
-    },
-  ];
 });
 </script>
