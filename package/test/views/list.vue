@@ -8,11 +8,15 @@ main
     )
       .inbl.vtal-top.h-50.w-400.c-theme 测试测试1111
 
-  .mt-30.fs-32 弹性盒子
-    .dspl-flex.fld-row.justify-sa
-      .w-100.h-100.bg-red.order-3 1
-      .w-100.h-100.bg-blue.order-1 2
-      .w-100.h-100.bg-yellow.order-2 3
+  .mt-30.fs-32.c-12ae8c 弹性盒子
+  .dspl-flex.fld-row.justify-sa
+    .w-100.h-100.bg-red.fl-g-1
+    .w-100.h-100.bg-blue.fl-g-1
+    .w-100.h-100.bg-yellow
+  .h-400.dspl-flex.fld-col.justify-sa.mt-30.bgc-118899
+    .w-100.h-100.bg-red
+    .w-100.h-100.bg-blue
+    .w-100.h-100.bg-yellow
 </template>
 
 <script setup>

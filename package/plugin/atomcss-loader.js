@@ -11,8 +11,6 @@
  * border-radius：br
  *
  */
-import fs from 'node:fs';
-
 let oClassNameMap = {
   // margin
   '.m': 'margin:$px',
@@ -198,15 +196,25 @@ function generateAtomCss(sAtomRegExp, sClassString) {
 
     // 色值类
     if (bColorFlag) {
-      let sKey = item.match(/\.\w+/)[0];
-      let nValue = '#' + item.split('-')[1];
-      aStyleStr.push(`${item}{${oClassNameMap[sKey].replace(/\#/g, nValue)}}`);
+      let tmp = item.split('-');
+      if (tmp.length > 1) {
+        let sKey = tmp.slice(0, tmp.length - 1).join('-');
+        let nValue = '#' + tmp[tmp.length - 1];
+        aStyleStr.push(
+          `${item}{${oClassNameMap[sKey].replace(/\#/g, nValue)}}`
+        );
+      }
     }
     // 数值类
     else if (/\d+/.test(item)) {
-      let sKey = item.match(/\.\w+/)[0];
-      let nValue = +item.match(/\d+/)[0];
-      aStyleStr.push(`${item}{${oClassNameMap[sKey].replace(/\$/g, nValue)}}`);
+      let tmp = item.split('-');
+      if (tmp.length > 1) {
+        let sKey = tmp.slice(0, tmp.length - 1).join('-');
+        let nValue = tmp[tmp.length - 1];
+        aStyleStr.push(
+          `${item}{${oClassNameMap[sKey].replace(/\$/g, nValue)}}`
+        );
+      }
       // 通用类
     } else {
       let sKey = item;
