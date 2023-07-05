@@ -58,7 +58,7 @@ function servePlugin(config) {
 
       if (vueFiles.length > 0) {
         let code = fs.readFileSync(vueFiles[0], 'utf8');
-        let result = atomcssLoader(code);
+        let result = atomcssLoader(code, config);
         server.ws.send({
           type: 'custom',
           event: 'atomcss:update-style',

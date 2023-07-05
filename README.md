@@ -39,7 +39,7 @@ import atomcss from 'vite-plugin-vue-atomcss';
 import atomcssConfig from './atomcss.config.js';
 
 export default defineConfig({
-  plugins: [vue(), atomcss(atomcssConfig)],
+  plugins: [atomcss(atomcssConfig), vue()],
 });
 ```
 

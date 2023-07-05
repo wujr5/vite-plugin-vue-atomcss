@@ -79,38 +79,58 @@ let oClassNameMap = {
   '.z': 'z-index: $',
 };
 
-export default function (sSource, oAtomConfig = {}) {
-  // 如果模式为 rem，则将 px 替换为 rem
-  if (oAtomConfig.mode === 'rem') {
+let oAtomConfig = null;
+let sAtomRegExp = '';
+
+// 获取原子类正则表达式
+function getAtomClassReg(oConfig) {
+  // 缓存配置，避免每次执行都生成一次
+  if (!oAtomConfig) {
+    oAtomConfig = oConfig;
+
+    // 如果模式为 rem，则将 px 替换为 rem
+    if (oAtomConfig.mode === 'rem') {
+      for (let key in oClassNameMap) {
+        oClassNameMap[key] = oClassNameMap[key].replace(/\$px/gi, '$rem');
+      }
+    }
+
+    oClassNameMap = Object.assign(oClassNameMap, oAtomConfig.config || {});
+
+    // 生成正则表达式
+    let aAtomRegExp = [];
     for (let key in oClassNameMap) {
-      oClassNameMap[key] = oClassNameMap[key].replace(/\$px/gi, '$rem');
+      let value = oClassNameMap[key];
+
+      // 数值原子类的正则
+      if (value.indexOf('$') != -1) {
+        aAtomRegExp.push(`\\${key}-[0-9]+`);
+      }
+      // 色值原子类正则
+      else if (value.indexOf('#') != -1) {
+        aAtomRegExp.push(`\\${key}-[0-9a-fA-F]+`);
+        // 通用原子类的正则
+      } else {
+        aAtomRegExp.push(`\\${key}`);
+      }
     }
+
+    // 规则长的排在前面，保证全匹配
+    aAtomRegExp.sort((a, b) => b.length - a.length);
+
+    sAtomRegExp = aAtomRegExp.join('|');
+    return sAtomRegExp;
+  } else {
+    return sAtomRegExp;
   }
+}
 
-  oClassNameMap = Object.assign(oClassNameMap, oAtomConfig.config || {});
-
-  // 生成正则表达式
-  let sAtomRegExp = '';
-  for (let key in oClassNameMap) {
-    let value = oClassNameMap[key];
-
-    // 数值原子类的正则
-    if (value.indexOf('$') != -1) {
-      sAtomRegExp += `\\${key}-[0-9]+|`;
-    }
-    // 色值原子类正则
-    else if (value.indexOf('#') != -1) {
-      sAtomRegExp += `\\${key}-[0-9a-fA-F]+|`;
-      // 通用原子类的正则
-    } else {
-      sAtomRegExp += `\\${key}|`;
-    }
-  }
-  // 去掉最后一个 | 符号
-  sAtomRegExp = sAtomRegExp.substr(0, sAtomRegExp.length - 1);
-
+// 从文件中提取所有类名
+function getAllClassNameFromSource(sSource) {
   // 从 vue 文件中提取 pug 代码
-  let sPugString, sHtmlString, sClassString;
+  let sPugString = '',
+    sHtmlString = '',
+    sClassString = '';
   try {
     // 匹配 pug
     sPugString = sSource.match(
@@ -136,38 +156,34 @@ export default function (sSource, oAtomConfig = {}) {
     }
   } catch (e) {
     console.warn(e);
-    return sSource;
+    return '';
   }
 
-  // 没有找到 template 模板，则无需处理
-  if (!sClassString) return { code: sSource, css: [] };
-  // if (!sClassString) return [];
+  return sClassString;
 
-  // 支持 pug 文件内 include 的文件的编译
-  let pugFileList = sClassString.match(/include \S*\.pug/g) || [];
-  pugFileList.forEach((file) => {
-    let filePath =
-      this.resourcePath.substr(0, this.resourcePath.lastIndexOf('/') + 1) +
-      file.replace('include ', '');
+  // // 支持 pug 文件内 include 的文件的编译
+  // let pugFileList = sClassString.match(/include \S*\.pug/g) || [];
+  // pugFileList.forEach((file) => {
+  //   let filePath =
+  //     this.resourcePath.substr(0, this.resourcePath.lastIndexOf('/') + 1) +
+  //     file.replace('include ', '');
 
-    // pug 文件改变，重新编译主文件
-    this.addDependency(filePath);
+  //   // pug 文件改变，重新编译主文件
+  //   this.addDependency(filePath);
 
-    let content = fs.readFileSync(filePath, 'utf-8');
-    sClassString = sClassString.replace(file, content);
-  });
+  //   let content = fs.readFileSync(filePath, 'utf-8');
+  //   sClassString = sClassString.replace(file, content);
+  // });
+}
 
+// 生成原子类
+function generateAtomCss(sAtomRegExp, sClassString) {
+  // 获取匹配的类名数组，并剔除重复的类名
   let atomReg = new RegExp(sAtomRegExp, 'ig');
-
-  // 获取 pc 端原子类类名数组，并剔除重复的类名
   function uniq(value, index, self) {
     return self.indexOf(value) === index;
   }
   let aClassName = (sClassString.match(atomReg) || []).filter(uniq);
-
-  // 输出 debug 数据
-  // this.query.debug && console.log('\n文件：', this.resourcePath, this.query);
-  // this.query.debug && console.log('desktop 类名：', aClassName);
 
   // 原子类样式接收数组
   let aStyleStr = [];
@@ -198,12 +214,22 @@ export default function (sSource, oAtomConfig = {}) {
     }
   });
 
-  // 输出 debug 数据
-  // this.query.debug && console.log('desktop 样式：', aStyleStr);
+  return aStyleStr;
+}
+
+export default function (sSource, oConfig = {}) {
+  // 获取原子类正则表达式
+  let sAtomRegExp = getAtomClassReg(oConfig);
+  // 从文件中提取所有类名
+  let sClassString = getAllClassNameFromSource(sSource);
+
+  if (!sClassString) return { code: sSource, css: [] };
+
+  // 正式生成原子类
+  let aStyleStr = generateAtomCss(sAtomRegExp, sClassString);
 
   return {
     code: `${sSource}\n<style>${aStyleStr.join('')}</style>\n`,
     css: aStyleStr,
   };
-  // return aStyleStr;
 }

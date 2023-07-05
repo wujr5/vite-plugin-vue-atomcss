@@ -1,18 +1,13 @@
-<template lang="pug">
-div
-  .w-100.h-100.bg-yellow(@click="count++")
-  div {{ count }}
+<template>
+  <div>
+    <div class="w-100 h-100 bg-red"></div>
+  </div>
 </template>
 
 <script setup>
-import { useRoute } from 'vue-router';
-import { ref, onMounted } from 'vue';
-
-let route = useRoute();
-
-let count = ref(0);
+import { onMounted } from 'vue';
 
 onMounted(() => {
-  document.title = '博客详情';
+  document.title = '详情';
 });
 </script>
