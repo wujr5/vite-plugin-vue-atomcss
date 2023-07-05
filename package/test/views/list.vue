@@ -11,7 +11,7 @@ main
   .mt-30.fs-32.c-12ae8c 弹性盒子
   .dspl-flex.fld-row.justify-sa
     .w-100.h-100.bg-red.fl-g-1
-    .w-100.h-100.bg-blue.fl-g-1
+    .w-100.h-100.bg-blue
     .w-100.h-100.bg-yellow
   .h-400.dspl-flex.fld-col.justify-sa.mt-30.bgc-118899
     .w-100.h-100.bg-red

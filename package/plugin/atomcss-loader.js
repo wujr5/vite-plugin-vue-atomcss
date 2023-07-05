@@ -11,7 +11,7 @@
  * border-radius：br
  *
  */
-let oClassNameMap = {
+let oOriginClassNameMap = {
   // margin
   '.m': 'margin:$px',
   '.ml': 'margin-left:$px',
@@ -77,23 +77,30 @@ let oClassNameMap = {
   '.z': 'z-index: $',
 };
 
-let oAtomConfig = null;
+let sConfig = '';
 let sAtomRegExp = '';
+let oClassNameMap = null;
 
 // 获取原子类正则表达式
 function getAtomClassReg(oConfig) {
   // 缓存配置，避免每次执行都生成一次
-  if (!oAtomConfig) {
-    oAtomConfig = oConfig;
+  if (!sConfig || JSON.stringify(oConfig) != sConfig) {
+    sConfig = JSON.stringify(oConfig);
 
     // 如果模式为 rem，则将 px 替换为 rem
-    if (oAtomConfig.mode === 'rem') {
-      for (let key in oClassNameMap) {
-        oClassNameMap[key] = oClassNameMap[key].replace(/\$px/gi, '$rem');
+    if (oConfig.mode === 'rem') {
+      for (let key in oOriginClassNameMap) {
+        oOriginClassNameMap[key] = oOriginClassNameMap[key].replace(
+          /\$px/gi,
+          '$rem'
+        );
       }
     }
 
-    oClassNameMap = Object.assign(oClassNameMap, oAtomConfig.config || {});
+    oClassNameMap = {
+      ...oOriginClassNameMap,
+      ...(oConfig.config || {}),
+    };
 
     // 生成正则表达式
     let aAtomRegExp = [];
