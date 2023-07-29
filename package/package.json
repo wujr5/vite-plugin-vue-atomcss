@@ -24,17 +24,17 @@
   },
   "homepage": "https://github.com/wujr5/vite-plugin-vue-atomcss#readme",
   "dependencies": {
-    "pug": "^3.0.2",
-    "vite-plugin-vue-atomcss": "^0.0.3",
+    "pug": "3.0.2",
     "vue": "3.3.4",
-    "vue-router": "^4.1.6"
+    "vue-router": "4.1.6"
   },
   "devDependencies": {
-    "@prettier/plugin-pug": "^2.4.1",
-    "@vitejs/plugin-vue": "^4.0.0",
-    "@volar/vue-language-plugin-pug": "^1.0.24",
-    "prettier": "^2.7.1",
-    "vite": "^4.0.0",
-    "vite-plugin-inspect": "^0.7.15"
+    "@prettier/plugin-pug": "2.4.1",
+    "@vitejs/plugin-vue": "4.0.0",
+    "@volar/vue-language-plugin-pug": "1.0.24",
+    "prettier": "2.7.1",
+    "vite": "4.0.0",
+    "vite-plugin-inspect": "0.7.15",
+    "vite-plugin-vue-atomcss": "file:.."
   }
 }

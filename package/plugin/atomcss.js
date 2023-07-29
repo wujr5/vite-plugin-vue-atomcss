@@ -46,7 +46,7 @@ function servePlugin(config) {
       return [
         {
           tag: 'script',
-          attrs: { type: 'module', src: dirname() + 'client.js' },
+          attrs: { type: 'module', src: '/node_modules/vite-plugin-vue-atomcss/client.js' },
           injectTo: 'body',
         },
       ];

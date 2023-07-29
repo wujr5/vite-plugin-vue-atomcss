@@ -2,8 +2,8 @@ import { fileURLToPath, URL } from 'node:url';
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 
-import atomcss from './plugin/atomcss';
-import atomcssConfig from './atomcss.config.js';
+import atomcss from 'vite-plugin-vue-atomcss';
+import atomcssConfig from './atomcss.config';
 
 // https://vitejs.dev/config/
 export default defineConfig({
