@@ -192,6 +192,9 @@
 .dspl-bl {
   display: block !important;
 }
+.dspl-none {
+  display: none !important;
+}
 
 /* flex */
 .flex-auto {
