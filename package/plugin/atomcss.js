@@ -81,6 +81,39 @@ function buildPlugin(config) {
         generateAtomcssFile();
       }
     },
+    // 在buildEnd钩子中，操作打包后的dist文件夹
+    buildEnd(build){
+      // 拿到当前存储样式的atomcss-generated.css的路径
+      let readFileUrl = dirname() + 'atomcss-generated.css';
+      // 读取文件内容
+      let readContent = fs.readFileSync(readFileUrl, 'utf8');
+
+      // 命名加入到dist中的文件名
+      let fileName = 'atomcss.css';
+      // 获取dist文件夹跟路径
+      let distMkdirUrl = path.join(
+        dirname().split('node_modules')[0],
+        '/dist'
+      );
+      // 获取index.html文件的路径
+      let writeFileUrl = path.join(distMkdirUrl,'index.html');
+      // 获取写入文件atomcss.css的地址
+      let completeUrl = path.join(distMkdirUrl, fileName);
+
+      // 判断是否存在dist文件夹
+      fs.mkdir(distMkdirUrl, { recursive: true });
+
+      // 将样式写入atomcss.css文件
+      fs.writeFileSync(completeUrl, readContent);
+
+      // 读取出index.html的内容并加入新的link标签
+      const content = fs.readFileSync(writeFileUrl, 'utf8');
+      const linkStr = `<link rel="stylesheet" href="/atomcss.css">`;
+      const newData = content.replace('</head>', linkStr + '</head>');
+
+      // 回写数据到index.html
+      fs.writeFileSync(writeFileUrl, newData, 'utf8');
+    },
   };
 }
 
