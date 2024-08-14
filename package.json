@@ -26,7 +26,7 @@
   "scripts": {
     "dev": "cd package && npm run dev",
     "copy": "cp package/plugin/*.css package/plugin/atomcss.config.js package/plugin/client.js . && echo '/* 自动生成的原子类，打包时存放在此 */' > atomcss-generated.css",
-    "build": "npm run copy && tsup package/plugin/atomcss.js --minify --format esm,cjs -d ."
+    "build": "npm run copy && tsup package/plugin/atomcss.js --minify terser --format esm,cjs -d ."
   },
   "repository": {
     "type": "git",
@@ -45,6 +45,7 @@
   },
   "homepage": "https://github.com/wujr5/vite-plugin-vue-atomcss#readme",
   "devDependencies": {
+    "terser": "5.31.6",
     "tsup": "6.6.3"
   }
 }
