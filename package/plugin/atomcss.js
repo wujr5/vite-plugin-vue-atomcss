@@ -81,8 +81,8 @@ function buildPlugin(config) {
         generateAtomcssFile();
       }
     },
-    // 在buildEnd钩子中，操作打包后的dist文件夹
-    buildEnd(build){
+    // 在closeBundle钩子中，操作打包后的dist文件夹
+    closeBundle(build){
       // 拿到当前存储样式的atomcss-generated.css的路径
       let readFileUrl = dirname() + 'atomcss-generated.css';
       // 读取文件内容
@@ -101,7 +101,7 @@ function buildPlugin(config) {
       let completeUrl = path.join(distMkdirUrl, fileName);
 
       // 判断是否存在dist文件夹
-      fs.mkdir(distMkdirUrl, { recursive: true });
+      fs.mkdirSync(distMkdirUrl, { recursive: true });
 
       // 将样式写入atomcss.css文件
       fs.writeFileSync(completeUrl, readContent);
