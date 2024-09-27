@@ -75,6 +75,7 @@ function servePlugin(config) {
 }
 
 function buildPlugin(config) {
+  let atomcssDist;
   return {
     name: 'vite-plugin-vue-atomcss',
     enforce: 'pre',
@@ -88,11 +89,24 @@ function buildPlugin(config) {
     },
     renderStart() {
       // 将处理好的原子类添加到构建文件中
-      this.emitFile({
+      let refAtomcssFile = this.emitFile({
         type: 'asset',
-        name: 'atomcss.css',
+        name: 'atomcss-dist.css',
         source: generateAtomcssFile(),
       });
+      atomcssDist = this.getFileName(refAtomcssFile);
+    },
+    transformIndexHtml(html) {
+      return [
+        {
+          tag: 'link',
+          attrs: {
+            rel: 'stylesheet',
+            href: '/' + atomcssDist,
+          },
+          injectTo: 'head',
+        },
+      ];
     },
   };
 }

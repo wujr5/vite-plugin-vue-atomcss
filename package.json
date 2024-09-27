@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-vue-atomcss",
-  "version": "0.0.26",
+  "version": "0.0.27",
   "description": "vite-plugin-vue-atomcss",
   "main": "atomcss.js",
   "type": "module",
