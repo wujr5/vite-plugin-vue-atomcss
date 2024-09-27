@@ -2,6 +2,7 @@
   "name": "test-atomcss",
   "version": "0.0.3",
   "description": "vite-plugin-vue-atomcss",
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

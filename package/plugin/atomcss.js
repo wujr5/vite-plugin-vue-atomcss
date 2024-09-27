@@ -1,11 +1,11 @@
 import fs from 'node:fs';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+// import path from 'node:path';
+// import { fileURLToPath } from 'node:url';
 import atomcssLoader from './atomcss-loader.js';
 
-function dirname() {
-  return path.dirname(fileURLToPath(import.meta.url)) + '/';
-}
+// function dirname() {
+//   return path.dirname(fileURLToPath(import.meta.url)) + '/';
+// }
 
 const cssFileStyle = {};
 
@@ -22,11 +22,13 @@ function generateAtomcssFile() {
   }
 
   // 将生成的原子类写入文件
-  fs.writeFileSync(
-    dirname() + 'atomcss-generated.css',
-    generatedCss.join(''),
-    'utf8'
-  );
+  // fs.writeFileSync(
+  //   dirname() + 'atomcss-generated.css',
+  //   generatedCss.join(''),
+  //   'utf8'
+  // );
+
+  return generatedCss.join('');
 }
 
 const vuefileRegex = /\.(vue)$/;
@@ -46,7 +48,10 @@ function servePlugin(config) {
       return [
         {
           tag: 'script',
-          attrs: { type: 'module', src: '/node_modules/vite-plugin-vue-atomcss/client.js' },
+          attrs: {
+            type: 'module',
+            src: '/node_modules/vite-plugin-vue-atomcss/client.js',
+          },
           injectTo: 'body',
         },
       ];
@@ -78,8 +83,16 @@ function buildPlugin(config) {
       if (vuefileRegex.test(id)) {
         let result = atomcssLoader(code, config);
         cssFileStyle[id] = result.css;
-        generateAtomcssFile();
+        // generateAtomcssFile();
       }
+    },
+    renderStart() {
+      // 将处理好的原子类添加到构建文件中
+      this.emitFile({
+        type: 'asset',
+        name: 'atomcss.css',
+        source: generateAtomcssFile(),
+      });
     },
   };
 }
